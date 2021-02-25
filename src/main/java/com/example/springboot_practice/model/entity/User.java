@@ -14,12 +14,14 @@ package com.example.springboot_practice.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 // @Table(name = "user") // table과 class의 이름이 동일하면 선언하지 않아도 됨
 public class User {
@@ -42,7 +44,4 @@ public class User {
 
     private String updatedBy;
 
-    public User() {
-
-    }
 }
