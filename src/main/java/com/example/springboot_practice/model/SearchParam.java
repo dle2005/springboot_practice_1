@@ -1,31 +1,21 @@
 package com.example.springboot_practice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class SearchParam {
     private String account;
     private String email;
     private int page;
 
-    public String getAccount() {
-        return account;
-    }
+    // Lombok : annotation을 추가함으로, 생성자, get, set method를 자동으로 추가
 
-    public void setAccount(String account) {
-        this.account = account;
-    }
+    // File -> Settings -> Lombok 검색 -> 설치
+    // build.gradle -> dependencies에 아래 코드 추가
+    // compile 'org.projectlombok:lombok:1.18.10'
+    // annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
+    // File -> Settings -> Annotation Processors -> Enable annotation processing 체크
 }
