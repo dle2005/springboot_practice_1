@@ -16,6 +16,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @ToString(exclude = {"orderGroup"})
+@EntityListeners(AuditingEntityListener.class)
 // @Table(name = "user") // table과 class의 이름이 동일하면 선언하지 않아도 됨
 public class User {
 
@@ -47,12 +53,16 @@ public class User {
 
     private LocalDateTime unregisteredAt;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 
+    @CreatedBy // component에서 return 하는 값을 가지게 됨
     private String createdBy;
 
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @LastModifiedBy
     private String updatedBy;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

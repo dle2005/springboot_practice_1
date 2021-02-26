@@ -33,8 +33,6 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
-        user.setCreatedAt(createdAt);
-        user.setCreatedBy(createdBy);
 
         User newUser = userRepository.save(user);
         Assert.assertNotNull(newUser);
