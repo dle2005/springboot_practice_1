@@ -38,7 +38,9 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
     @Test
     @Transactional // test상태에서만 필요
     public void read() {
-        Optional<User> user = userRepository.findById(7L);
+
+        // select * from user where id = ?
+        Optional<User> user = userRepository.findByAccount("TestUser03");
 
         user.ifPresent(selectUser -> {
             selectUser.getOrderDetailList().stream().forEach(detail ->{

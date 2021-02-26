@@ -45,6 +45,14 @@ public class User {
 
     private String updatedBy;
 
+    // FetchType : LAZY = 지연로딩, EAGER = 즉시로딩
+
+    // LAZY = SELECT * FROM item where id = ?
+    // 따로 method, orderDetailist에 대해 get method를 호출 하지 않는 이상, 연관관계가 설정된 테이블에 대해서 select를 하지 않겠다.
+
+    // EAGER = 모든 조인을 다 마치고 where item.id = ?
+    // 즉시 모든 것을 다 로딩 하겠다. 연관관계가 설정된 모든 테이블에 대해 join을 실행
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user") // user는 orderDetail의 변수명과 동일해야함
     private List<OrderDetail> orderDetailList;
 
