@@ -34,6 +34,14 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
 
+//        User u = new User(account, password, status, email);
+//        User u = User.builder()
+//                .account(account)
+//                .password(password)
+//                .status(status)
+//                .email(email)
+//                .build();
+
         User newUser = userRepository.save(user);
         Assert.assertNotNull(newUser);
 
@@ -57,6 +65,10 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
     public void read() {
 
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+
+        // Accessors
+        // user.setEmail(); 를 아래와 같이 사용 가능
+        // user.setEmail().setPhoneNumber().setStatus();
 
         if(user != null) {
             user.getOrderGroupList().stream().forEach(orderGroup -> {
