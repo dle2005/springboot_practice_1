@@ -1,6 +1,7 @@
 package com.example.springboot_practice.repository;
 
 import com.example.springboot_practice.SpringbootPracticeApplicationTests;
+import com.example.springboot_practice.model.entity.Item;
 import com.example.springboot_practice.model.entity.User;
 import com.example.springboot_practice.repasitory.UserRepository;
 import org.junit.Assert;
@@ -35,11 +36,15 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
     // userRepository가 JpaRepository 상속받아 기본적이 crud를 제공
     // read와 관련은 find로 시작하는 keyword
     @Test
+    @Transactional // test상태에서만 필요
     public void read() {
-        Optional<User> user = userRepository.findById(2L);
+        Optional<User> user = userRepository.findById(7L);
 
         user.ifPresent(selectUser -> {
-            System.out.println("user : " + selectUser);
+            selectUser.getOrderDetailList().stream().forEach(detail ->{
+                Item item = detail.getItem();
+                System.out.println(item);
+            });
         });
     }
 

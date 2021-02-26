@@ -3,17 +3,16 @@ package com.example.springboot_practice.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {"user", "item"}) // user와 userList가 toString을 상호 참조하여 오버플로우 발생
 public class OrderDetail {
 
     @Id
@@ -22,7 +21,11 @@ public class OrderDetail {
 
     private LocalDateTime orderAt;
 
-    private Long userId;
+    // orderDetail 입장에선 N : 1
+    @ManyToOne
+    private User user;
+    // private Long userId;
 
-    private Long itemId;
+    @ManyToOne
+    private Item item;
 }

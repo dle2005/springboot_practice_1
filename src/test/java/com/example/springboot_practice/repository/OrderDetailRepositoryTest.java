@@ -20,9 +20,9 @@ public class OrderDetailRepositoryTest extends SpringbootPracticeApplicationTest
 
         orderDetail.setOrderAt(LocalDateTime.now());
 
-        orderDetail.setUserId(7L);
+        // orderDetail.setUserId(7L);
 
-        orderDetail.setItemId(1L);
+        // orderDetail.setItemId(1L);
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
         Assert.assertNotNull(newOrderDetail);
