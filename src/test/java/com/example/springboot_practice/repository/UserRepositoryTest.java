@@ -1,13 +1,10 @@
 package com.example.springboot_practice.repository;
 
 import com.example.springboot_practice.SpringbootPracticeApplicationTests;
-import com.example.springboot_practice.model.entity.Item;
 import com.example.springboot_practice.model.entity.User;
-import com.example.springboot_practice.repasitory.UserRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -20,17 +17,39 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
 
     @Test
     public void create() {
-        User user = new User();
+        String account = "Test01";
+        String password = "Test01";
+        String status = "REGISTERED";
+        String email = "Test01@gmail.com";
+        String phoneNumber = "010-1111-2222";
+        LocalDateTime registeredAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
+        String createdBy = "AdminServer";
 
-        user.setAccount("TestUser03");
-        user.setEmail("TestUser03@gmail.com");
-        user.setPhoneNumber("010-1111-3333");
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy("TestUser3");
+        User user = new User();
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setStatus(status);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setRegisteredAt(registeredAt);
+        user.setCreatedAt(createdAt);
+        user.setCreatedBy(createdBy);
 
         User newUser = userRepository.save(user);
+        Assert.assertNotNull(newUser);
 
-        System.out.println("newUser : " + newUser);
+//        User user = new User();
+//
+//        user.setAccount("TestUser03");
+//        user.setEmail("TestUser03@gmail.com");
+//        user.setPhoneNumber("010-1111-3333");
+//        user.setCreatedAt(LocalDateTime.now());
+//        user.setCreatedBy("TestUser3");
+//
+//        User newUser = userRepository.save(user);
+//
+//        System.out.println("newUser : " + newUser);
     }
 
     // userRepository가 JpaRepository 상속받아 기본적이 crud를 제공
@@ -39,15 +58,20 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
     @Transactional // test상태에서만 필요
     public void read() {
 
-        // select * from user where id = ?
-        Optional<User> user = userRepository.findByAccount("TestUser03");
+        User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
 
-        user.ifPresent(selectUser -> {
-            selectUser.getOrderDetailList().stream().forEach(detail ->{
-                Item item = detail.getItem();
-                System.out.println(item);
-            });
-        });
+        Assert.assertNotNull(user);
+
+
+//        // select * from user where id = ?
+//        Optional<User> user = userRepository.findByAccount("TestUser03");
+//
+//        user.ifPresent(selectUser -> {
+//            selectUser.getOrderDetailList().stream().forEach(detail ->{
+//                Item item = detail.getItem();
+//                System.out.println(item);
+//            });
+//        });
     }
 
     @Test

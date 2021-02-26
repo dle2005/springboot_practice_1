@@ -13,14 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = {"user", "item"}) // user와 userList가 toString을 상호 참조하여 오버플로우 발생
+//@ToString(exclude = {"user", "item"}) // user와 userList가 toString을 상호 참조하여 오버플로우 발생
 public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private LocalDateTime orderAt;
 
     private String status;
 
@@ -38,11 +36,15 @@ public class OrderDetail {
 
     private String updatedBy;
 
-    // orderDetail 입장에선 N : 1
-    @ManyToOne
-    private User user;
-    // private Long userId;
+    private Long itemId;
 
-    @ManyToOne
-    private Item item;
+    private Long orderGroupId;
+
+//    // orderDetail 입장에선 N : 1
+//    @ManyToOne
+//    private User user;
+//    // private Long userId;
+//
+//    @ManyToOne
+//    private Item item;
 }

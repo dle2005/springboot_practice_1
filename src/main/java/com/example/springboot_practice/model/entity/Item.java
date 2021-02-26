@@ -18,6 +18,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String status;
+
     private String name;
 
     private String title;
@@ -40,6 +42,8 @@ public class Item {
 
     private String updatedBy;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    private List<OrderDetail> orderDetailList;
+    private Long partnerId;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+//    private List<OrderDetail> orderDetailList;
 }

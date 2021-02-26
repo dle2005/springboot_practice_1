@@ -1,4 +1,4 @@
-package com.example.springboot_practice.repasitory;
+package com.example.springboot_practice.repository;
 
 import com.example.springboot_practice.model.entity.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;

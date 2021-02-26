@@ -1,10 +1,8 @@
-package com.example.springboot_practice.repasitory;
+package com.example.springboot_practice.repository;
 
 import com.example.springboot_practice.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 // Repository
 // 따로 쿼리문을 작성하지 않아도 기본적인 interface를 통해서
@@ -14,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> { // <table명, primary key>
 
+    User findFirstByPhoneNumberOrderByIdDesc(String phoneNumber);
 
 
 //    // JPA가 findBy까지 보고 select인 것을 인지
