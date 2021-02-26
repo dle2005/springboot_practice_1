@@ -14,13 +14,15 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> { // <table명, primary key>
 
-    // JPA가 findBy까지 보고 select인 것을 인지
-    // findBy 뒤의 대문자를 보고 매칭
-    // select * from user where account = ? << test03, test04
-    Optional<User> findByAccount(String account);
 
-    Optional<User> findByEmail(String email);
 
-    // select * from user where account = ? and email = ?
-    Optional<User> findByAccountAndEmail(String account, String email);
+//    // JPA가 findBy까지 보고 select인 것을 인지
+//    // findBy 뒤의 대문자를 보고 매칭
+//    // select * from user where account = ? << test03, test04
+//    Optional<User> findByAccount(String account);
+//
+//    Optional<User> findByEmail(String email);
+//
+//    // select * from user where account = ? and email = ?
+//    Optional<User> findByAccountAndEmail(String account, String email);
 }
