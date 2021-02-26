@@ -15,6 +15,7 @@ package com.example.springboot_practice.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {"orderGroup"})
 // @Table(name = "user") // table과 class의 이름이 동일하면 선언하지 않아도 됨
 public class User {
 
@@ -52,6 +54,10 @@ public class User {
     private LocalDateTime updatedAt;
 
     private String updatedBy;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<OrderGroup> orderGroupList;
+
 
 //    // FetchType : LAZY = 지연로딩, EAGER = 즉시로딩
 //

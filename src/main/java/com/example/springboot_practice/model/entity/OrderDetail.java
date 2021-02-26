@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {"orderGroup", "item"})
 //@ToString(exclude = {"user", "item"}) // user와 userList가 toString을 상호 참조하여 오버플로우 발생
 public class OrderDetail {
 
@@ -36,9 +37,11 @@ public class OrderDetail {
 
     private String updatedBy;
 
-    private Long itemId;
+    @ManyToOne
+    private Item item;
 
-    private Long orderGroupId;
+    @ManyToOne
+    private OrderGroup orderGroup;
 
 //    // orderDetail 입장에선 N : 1
 //    @ManyToOne
