@@ -1,6 +1,7 @@
 package com.example.springboot_practice.controller;
 
 import com.example.springboot_practice.model.SearchParam;
+import com.example.springboot_practice.model.network.Header;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // spring에게 여기를 controller로 활용할 것이라고 알려주는 지시자
@@ -31,5 +32,12 @@ public class GetController {
         System.out.println(searchParam.getPage());
 
         return searchParam;
+    }
+
+    @GetMapping("/header")
+    public Header getHeader() {
+
+        // {"resultCode" : "OK", "description" : "OK"}
+        return Header.builder().resultCode("OK").description("OK").build();
     }
 }
