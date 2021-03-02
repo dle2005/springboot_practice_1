@@ -25,7 +25,8 @@ public class ItemApiController implements CrudInterface<ItemApiRequest, ItemApiR
 
     @Override
     @GetMapping("{id}") // api/item/{id}
-    public Header<ItemApiResponse> read(@PathVariable Long id) {
+    public Header<ItemApiResponse> read(@PathVariable(name = "id") Long id) {
+        log.info("read id : {}", id);
         return itemApiLogicService.read(id);
     }
 
@@ -38,6 +39,6 @@ public class ItemApiController implements CrudInterface<ItemApiRequest, ItemApiR
     @Override
     @DeleteMapping("{id}") // api/item/{id}
     public Header delete(@PathVariable Long id) {
-        return null;
+        return itemApiLogicService.delete(id);
     }
 }
