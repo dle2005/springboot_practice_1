@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.time.LocalDate;
 
 @Embeddable
@@ -12,11 +14,12 @@ import java.time.LocalDate;
 @Data
 public class Birthday {
 
-    private int yearOfBirthday;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer yearOfBirthday;
 
-    private int monthOfBirthday;
+    private Integer monthOfBirthday;
 
-    private int dayOfBirthday;
+    private Integer dayOfBirthday;
 
     public Birthday(LocalDate birthday) {
         this.yearOfBirthday = birthday.getYear();

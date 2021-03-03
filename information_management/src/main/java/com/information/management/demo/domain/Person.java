@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Person {
 
     @Id
-    @GeneratedValue // 자동으로 생성되게 끔
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull

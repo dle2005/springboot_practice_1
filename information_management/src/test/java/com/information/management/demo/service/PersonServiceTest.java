@@ -28,8 +28,6 @@ class PersonServiceTest {
 
     @Test
     void getPeopleExcludeBlocks() {
-        givenPeople();
-
         List<Person> result = personService.getPeopleExcludeBlocks();
 
 //        System.out.println(result);
@@ -37,9 +35,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void getPeropleByName() {
-        givenPeople();
-
+    void getPeopleByName() {
         List<Person> result = personService.getPersonByName("martin");
 
         result.forEach(System.out::println);
