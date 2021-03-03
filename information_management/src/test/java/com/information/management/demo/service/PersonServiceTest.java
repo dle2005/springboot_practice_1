@@ -36,6 +36,27 @@ class PersonServiceTest {
     }
 
     @Test
+    void getPeropleByName() {
+        givenPeople();
+
+        List<Person> result = personService.getPersonByName("martin");
+
+        result.forEach(System.out::println);
+    }
+
+    @Test
+    void findByBirthdayBetween() {
+        givenPerson("martin", 10, LocalDate.of(1992, 3, 4));
+        givenPerson("david", 9, LocalDate.of(1991, 8, 15));
+        givenPerson("dennis", 7, LocalDate.of(2000, 3, 4));
+        givenPerson("martin", 11, LocalDate.of(1997, 1, 29));
+
+        List<Person> result = personRepository.findByBirthdayBetween(LocalDate.of(1991,8,1), LocalDate.of(2021, 3,3));
+
+        result.forEach(System.out::println);
+    }
+
+    @Test
     void cascadeTest() {
         givenPeople();
 
@@ -80,6 +101,12 @@ class PersonServiceTest {
         givenPerson("david", 9);
         givenPerson("dennis", 7);
         givenBlockPerson("martin", 11);
+    }
+
+    private void givenPerson(String name, int age, LocalDate birthday) {
+        Person person = new Person(name, age);
+        person.setBirthday(birthday);
+        personRepository.save(person);
     }
 
     private void givenPerson(String name, int age) {
