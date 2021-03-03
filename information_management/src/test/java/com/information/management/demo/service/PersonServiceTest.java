@@ -2,6 +2,7 @@ package com.information.management.demo.service;
 
 import com.information.management.demo.domain.Block;
 import com.information.management.demo.domain.Person;
+import com.information.management.demo.domain.dto.Birthday;
 import com.information.management.demo.repository.BlockRepository;
 import com.information.management.demo.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
@@ -51,7 +52,7 @@ class PersonServiceTest {
         givenPerson("dennis", 7, LocalDate.of(2000, 3, 4));
         givenPerson("martin", 11, LocalDate.of(1997, 1, 29));
 
-        List<Person> result = personRepository.findByBirthdayBetween(LocalDate.of(1991,8,1), LocalDate.of(2021, 3,3));
+        List<Person> result = personRepository.findByMonthOfBirthday(8, 15);
 
         result.forEach(System.out::println);
     }
@@ -105,7 +106,7 @@ class PersonServiceTest {
 
     private void givenPerson(String name, int age, LocalDate birthday) {
         Person person = new Person(name, age);
-        person.setBirthday(birthday);
+        person.setBirthday(new Birthday(birthday));
         personRepository.save(person);
     }
 

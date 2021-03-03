@@ -1,5 +1,6 @@
 package com.information.management.demo.domain;
 
+import com.information.management.demo.domain.dto.Birthday;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +29,8 @@ public class Person {
 
     private String address;
 
-    private LocalDate birthday;
+    @Embedded
+    private Birthday birthday;
 
     private String job;
 
