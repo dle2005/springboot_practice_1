@@ -28,7 +28,7 @@ public class Header<T> {
 
     // OK
     public static <T> Header<T> OK() {
-        return (Header<T>)Header.builder()
+        return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now())
                 .resultCode("OK")
                 .description("OK")
@@ -37,7 +37,7 @@ public class Header<T> {
 
     // DATA OK
     public static <T> Header<T> OK(T data) {
-        return (Header<T>)Header.builder()
+        return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now())
                 .resultCode("OK")
                 .description("OK")
@@ -47,7 +47,7 @@ public class Header<T> {
 
     // ERROR
     public static <T> Header<T> ERROR(String description) {
-        return (Header<T>)Header.builder()
+        return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now())
                 .resultCode("ERROR")
                 .description(description)

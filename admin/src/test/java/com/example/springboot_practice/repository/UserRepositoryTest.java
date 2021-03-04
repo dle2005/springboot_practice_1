@@ -70,7 +70,7 @@ public class UserRepositoryTest extends SpringbootPracticeApplicationTests {
         // user.setEmail(); 를 아래와 같이 사용 가능
         // user.setEmail().setPhoneNumber().setStatus();
 
-        if(user != null) {
+        if (user != null) {
             user.getOrderGroupList().stream().forEach(orderGroup -> {
                 System.out.println("-------------주문묶음-------------");
                 System.out.println("수령인 : " + orderGroup.getRevName());

@@ -30,7 +30,7 @@ class PersonRepositoryTest {
 
 //        System.out.println(personRepository.findAll());
 //        List<Person> people = personRepository.findAll();
-        List<Person> people= personRepository.findByName("john");
+        List<Person> people = personRepository.findByName("john");
 
         Assertions.assertThat(people.size()).isEqualTo(1);
         Assertions.assertThat(people.get(0).getName()).isEqualTo("john");

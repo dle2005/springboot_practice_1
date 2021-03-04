@@ -12,7 +12,7 @@ public class GetController {
     @RequestMapping(method = RequestMethod.GET, path = "/getMethod") // Localhost:8080/api/getMethod
     public String getRequest() {
 
-            return "Hi getMethod";
+        return "Hi getMethod";
     }
 
     @GetMapping("/getParameter") // Localhost:8080/api/getParameter?id=1234&password=abcd

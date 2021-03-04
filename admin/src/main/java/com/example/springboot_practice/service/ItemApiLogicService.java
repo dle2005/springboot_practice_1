@@ -69,7 +69,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 
                     return entityItem;
                 })
-                .map(newEntity ->baseRepository.save(newEntity))
+                .map(newEntity -> baseRepository.save(newEntity))
                 .map(item -> response(item))
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
