@@ -1,8 +1,8 @@
-insert into person(`id`, `name`, `age`) values (1, 'martin', 10);
-insert into person(`id`, `name`, `age`) values (2, 'david', 10);
-insert into person(`id`, `name`, `age`) values (3, 'dennis', 10);
-insert into person(`id`, `name`, `age`) values (4, 'sophia', 10);
-insert into person(`id`, `name`, `age`) values (5, 'benny', 10);
+insert into person(`id`, `name`) values (1, 'martin');
+insert into person(`id`, `name`) values (2, 'david');
+insert into person(`id`, `name`) values (3, 'dennis');
+insert into person(`id`, `name`) values (4, 'sophia');
+insert into person(`id`, `name`) values (5, 'benny');
 
 insert into block(`id`, `name`) values (1, 'dennis');
 insert into block(`id`, `name`) values (2, 'sophia');
