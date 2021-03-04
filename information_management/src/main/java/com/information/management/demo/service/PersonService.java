@@ -1,5 +1,6 @@
 package com.information.management.demo.service;
 
+import com.information.management.demo.controller.dto.PersonDto;
 import com.information.management.demo.domain.Block;
 import com.information.management.demo.domain.Person;
 import com.information.management.demo.repository.BlockRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +36,10 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public Person getPerson(Long id) {
-        Person person = personRepository.findById(id).get();
+//        Person person = personRepository.findById(id).get();
+//        Optional<Person> person = personRepository.findById(id);
+        Person person = personRepository.findById(id).orElse(null);
+
 
         System.out.println("person: " + person);
         log.info("person : {}", person);
@@ -48,5 +53,37 @@ public class PersonService {
 //        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
 
         return personRepository.findByName(name);
+    }
+
+    @Transactional
+    public void put(Person person) {
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, PersonDto personDto) {
+        Person personAtDb = personRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다."));
+
+        if (!personAtDb.getName().equals(personDto.getName())) {
+            throw new RuntimeException("이름이 다릅니다.");
+        }
+
+        personAtDb.setName(personDto.getName());
+        personAtDb.setAge(personDto.getAge());
+
+        personRepository.save(personAtDb);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다."));
+
+//        personRepository.delete(person);
+
+        person.setDeleted(true);
+
+        personRepository.save(person);
     }
 }
