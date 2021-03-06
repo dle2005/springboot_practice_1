@@ -17,6 +17,8 @@ import java.util.List;
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Builder
+@Accessors(chain = true)
 public class Category {
 
     @Id
