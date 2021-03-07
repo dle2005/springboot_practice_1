@@ -48,4 +48,11 @@ class GetControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void getHeader() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/header"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }
