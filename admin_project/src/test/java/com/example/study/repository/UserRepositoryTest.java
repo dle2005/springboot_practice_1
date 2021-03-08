@@ -2,6 +2,7 @@ package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.User;
+import com.example.study.model.enumclass.UserStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
         User user = new User();
         user.setAccount("TestUser03");
         user.setPassword("1234");
-        user.setStatus("OK");
+        user.setStatus(UserStatus.REGISTERED);
         user.setPhoneNumber("010-3333-3333");
 
         User newUser = userRepository.save(user);
