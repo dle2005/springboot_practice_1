@@ -2,15 +2,38 @@ package com.example.study.service;
 
 import com.example.study.model.entity.AdminUser;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.AdminApiRequest;
 import com.example.study.model.network.response.AdminApiResponse;
 import com.example.study.model.network.response.BaseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminApiLogicService extends BaseService<AdminApiRequest, AdminApiResponse, AdminUser> {
+
+    @Override
+    public Header<List<AdminApiResponse>> search(Pageable pageable) {
+        Page<AdminUser> adminUsers = baseRepository.findAll(pageable);
+
+        List<AdminApiResponse> adminApiResponsesList = adminUsers.stream()
+                .map(adminUser -> response(adminUser).getData())
+                .collect(Collectors.toList());
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(adminUsers.getTotalPages())
+                .totalElements(adminUsers.getTotalElements())
+                .currentPage(adminUsers.getNumber())
+                .currentElements(adminUsers.getNumberOfElements())
+                .build();
+
+        return Header.OK(adminApiResponsesList, pagination);
+    }
 
     @Override
     public Header<AdminApiResponse> create(Header<AdminApiRequest> request) {

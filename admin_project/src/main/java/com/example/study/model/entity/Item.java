@@ -18,9 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Builder
 @Accessors(chain = true)
+@EntityListeners(AuditingEntityListener.class)
 public class Item {
 
     @Id
