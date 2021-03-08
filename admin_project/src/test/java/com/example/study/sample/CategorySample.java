@@ -4,7 +4,7 @@ import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.Category;
 import com.example.study.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
@@ -26,6 +26,7 @@ public class CategorySample extends StudyApplicationTests {
             String c = category.get(i);
             String t = title.get(i);
             Category create = Category.builder().type(c).title(t).build();
+            System.out.println(create);
             categoryRepository.save(create);
         }
 

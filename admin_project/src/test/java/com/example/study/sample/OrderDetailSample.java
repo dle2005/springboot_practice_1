@@ -11,7 +11,7 @@ import com.example.study.repository.OrderDetailRepository;
 import com.example.study.repository.OrderGroupRepository;
 import com.example.study.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;

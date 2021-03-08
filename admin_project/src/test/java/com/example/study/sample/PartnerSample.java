@@ -6,7 +6,7 @@ import com.example.study.model.entity.Partner;
 import com.example.study.repository.CategoryRepository;
 import com.example.study.repository.PartnerRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
