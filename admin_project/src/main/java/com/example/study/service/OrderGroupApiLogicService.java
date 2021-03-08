@@ -1,14 +1,11 @@
 package com.example.study.service;
 
-import com.example.study.ifs.CrudInterface;
 import com.example.study.model.entity.OrderGroup;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.OrderGroupApiRequest;
 import com.example.study.model.network.response.BaseService;
 import com.example.study.model.network.response.OrderGroupApiResponse;
-import com.example.study.repository.OrderGroupRepository;
 import com.example.study.repository.UserRepository;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,12 +49,38 @@ public class OrderGroupApiLogicService extends BaseService<OrderGroupApiRequest,
 
     @Override
     public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
-        return null;
+        OrderGroupApiRequest orderGroupApiRequest = request.getData();
+
+        Optional<OrderGroup> optional = baseRepository.findById(orderGroupApiRequest.getId());
+
+        return optional.map(orderGroup -> {
+                    orderGroup.setStatus(orderGroupApiRequest.getStatus())
+                            .setOrderType(orderGroupApiRequest.getOrderType())
+                            .setRevAddress(orderGroupApiRequest.getRevAddress())
+                            .setRevName(orderGroupApiRequest.getRevName())
+                            .setPaymentType(orderGroupApiRequest.getPaymentType())
+                            .setTotalPrice(orderGroupApiRequest.getTotalPrice())
+                            .setTotalQuantity(orderGroupApiRequest.getTotalQuantity())
+                            .setOrderAt(orderGroupApiRequest.getOrderAt())
+                            .setArrivalDate(orderGroupApiRequest.getArrivalDate())
+                            .setUser(userRepository.getOne(orderGroupApiRequest.getUserId()));
+
+                    return orderGroup;
+                })
+                .map(orderGroup -> baseRepository.save(orderGroup))
+                .map(orderGroup -> response(orderGroup))
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return null;
+        Optional<OrderGroup> optional = baseRepository.findById(id);
+
+        return optional.map(orderGroup -> {
+                    baseRepository.delete(orderGroup);
+                    return Header.OK();
+                })
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     private Header<OrderGroupApiResponse> response(OrderGroup orderGroup) {
