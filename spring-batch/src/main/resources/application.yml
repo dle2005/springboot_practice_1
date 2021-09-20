@@ -5,5 +5,7 @@ spring:
     username: root
     password: ehdrhs8615
   batch:
+    job:
+      names: ${job.name:NONE}
     jdbc:
       initialize-schema: never
