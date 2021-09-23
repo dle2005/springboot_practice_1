@@ -9,6 +9,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
@@ -58,6 +59,13 @@ public class ChunkProcessingConfiguration {
                 .build();
     }
 
+    // @Scope는 bran 생성 및 소멸 시킬 지 bean의 lifecycle을 설정
+    // @JobScope는 job 실행 시점에 생성/소멸, Step에 선언
+    // @StepScope는 Step 실행 시점에 생성/소명, Tasklet, Chunk에 선언
+    // @Scope("job") == @JobScope, @Scope("step") == @StepScope
+    // Job과 Step 라이프사이클에 의해 생성되기 때문에 Thread safe하게 작동
+    // @Value*("{jobParameters[key]}")를 사용하기 위해 @JobScope와 @StepScope는 필수
+
     private ItemWriter<String> itemWriter() {
         return items -> log.info("chink item size : {}", items.size());
 //        return items -> items.forEach(log::info);
@@ -74,7 +82,7 @@ public class ChunkProcessingConfiguration {
     @Bean
     public Step taskBaseStep() {
         return stepBuilderFactory.get("taskBaseStep")
-                .tasklet(this.tasklet())
+                .tasklet(this.tasklet(null))
                 .build();
     }
 
@@ -89,16 +97,18 @@ public class ChunkProcessingConfiguration {
 //    }
 
     // chunk와 같이 단위로 tasklet 실행하고자 할 때
-    private Tasklet tasklet() {
+    @Bean
+    @StepScope
+    public Tasklet tasklet(@Value("#{jobParameters[chunkSize]}") String value) {
         List<String> items = getItems();
 
         return ((contribution, chunkContext) -> {
             StepExecution stepExecution = contribution.getStepExecution();
 
             // JobParameters 객체 사용 방법
-            JobParameters jobParameters = stepExecution.getJobParameters();
+//            JobParameters jobParameters = stepExecution.getJobParameters();
             // Configuration -chunkSize=20 --job.name=chunkProcessingJob
-            String value = jobParameters.getString("chunkSize", "10");
+//            String value = jobParameters.getString("chunkSize", "10");
             int chunkSize = StringUtils.isNotEmpty(value) ? Integer.parseInt(value) : 10;
 
             int fromIndex = stepExecution.getReadCount();
