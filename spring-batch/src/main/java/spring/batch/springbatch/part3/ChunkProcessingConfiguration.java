@@ -1,10 +1,13 @@
 package spring.batch.springbatch.part3;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -13,8 +16,10 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.relational.core.sql.In;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +42,16 @@ public class ChunkProcessingConfiguration {
         return jobBuilderFactory.get("chunkProcessingJob")
                 .incrementer(new RunIdIncrementer())
                 .start(this.taskBaseStep())
-                .next(this.chunkBaseStep())
+                .next(this.chunkBaseStep(null)) // JobParameters Spring expression language
                 .build();
     }
 
     @Bean
-    public Step chunkBaseStep() {
+    @JobScope// JobParameters Spring expression language 사용 방법
+    public Step chunkBaseStep(@Value("#{jobParameters[chunkSize]}") String chunkSize) {
+        // // Configuration -chunkSize=20 --job.name=chunkProcessingJob
         return stepBuilderFactory.get("chunkBaseStep")
-                .<String, String>chunk(10)
+                .<String, String>chunk(StringUtils.isNotEmpty(chunkSize) ? Integer.parseInt(chunkSize) : 10)
                 .reader(itemReader())
                 .processor(itemProcessor())
                 .writer(itemWriter())
@@ -71,6 +78,7 @@ public class ChunkProcessingConfiguration {
                 .build();
     }
 
+    // 기본적인 tasklet 사용시
 //    private Tasklet tasklet() {
 //        return ((contribution, chunkContext) -> {
 //            List<String> items = getItems();
@@ -80,13 +88,19 @@ public class ChunkProcessingConfiguration {
 //        });
 //    }
 
+    // chunk와 같이 단위로 tasklet 실행하고자 할 때
     private Tasklet tasklet() {
         List<String> items = getItems();
 
         return ((contribution, chunkContext) -> {
             StepExecution stepExecution = contribution.getStepExecution();
 
-            int chunkSize = 10;
+            // JobParameters 객체 사용 방법
+            JobParameters jobParameters = stepExecution.getJobParameters();
+            // Configuration -chunkSize=20 --job.name=chunkProcessingJob
+            String value = jobParameters.getString("chunkSize", "10");
+            int chunkSize = StringUtils.isNotEmpty(value) ? Integer.parseInt(value) : 10;
+
             int fromIndex = stepExecution.getReadCount();
             int toIndex = fromIndex + chunkSize;
 
