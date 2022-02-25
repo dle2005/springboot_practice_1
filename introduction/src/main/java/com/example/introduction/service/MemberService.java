@@ -4,10 +4,12 @@ import com.example.introduction.domain.Member;
 import com.example.introduction.repository.MemberRepository;
 import com.example.introduction.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class MemberService {
 
