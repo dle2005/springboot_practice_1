@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    password: ehdrhs8615
+    url: jdbc:mysql://localhost:3306/introduction?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  jpa:
+    show-sql: true
