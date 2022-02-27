@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
