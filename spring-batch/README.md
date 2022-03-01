@@ -49,6 +49,10 @@ Step method
 
 job 과 step 은 Bean 으로 등록되어야 한다.
 
+Execution Context
+- JobExecution Context 는 job 내에서만 공유
+- StepExecution Context 는 step 내에서만 공유
+
 배치 실행을 위한 메타 데이터가 저장되는 테이블
 - BATCH_JOB_INSTANCE
   - Job 이 실행되며 생성되는 최상위 계층의 테이블
