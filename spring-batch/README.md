@@ -17,6 +17,7 @@ Job
   - spring batch 에서 제공하는 클래스
   - 이미 빈에 등록되어 있음
 - 하나의 job 은 여러개의 step 을 가질 수 있음  
+- JobParameter 설정은 Program arguments 앞에 키와 값을 추가
   
 Job method
 - .get : job 의 name 을 설정    
@@ -43,7 +44,7 @@ Step - Chunk 기반
   - ItemProcessor 는 optional 하며, ItemReader 또는 ItemWriter 가 역활을 대신할 수 있음
 - ItemWriter 는 배치 처리 대상 객체를 처리
   - 예시로, DB update 를 하거나, 처리 대상 사용자에게 알림을 보낸다.
-- chunk(chunkSize) chunkSize 개씩 데이터를 분할  
+- chunk(chunkSize) chunkSize 개씩 데이터를 분할
 
 Step - Task 기반
 - 배치 처리 과정이 비교적 쉬운 경우 쉽게 사용
@@ -60,6 +61,23 @@ job 과 step 은 Bean 으로 등록되어야 한다.
 Execution Context
 - JobExecution Context 는 job 내에서만 공유
 - StepExecution Context 는 step 내에서만 공유
+
+Scope
+- @Scope 는 어떤 시점에 bean 을 생성/소멸 시킬 지 bean 의 lifecycle 을 설정
+- @JobScope 는 job 실행 시점에 생성/소멸 (@Scope(“job”) == @JobScope)
+  - Step 에 선언
+- @StepScope는 step 실행 시점에 생성/소멸 (@Scope(“step”) == @StepScope)
+  - Tasklet, Chunk(ItemReader, ItemProcessor, ItemWriter) 에 선언
+- Job 과 Step 라이프사이클에 의해 생성되기 때문에 Thread safe 하게 작동
+- @Value(“#{jobParameters[key]}”)를 사용하기 위해 @JobScope 와 @StepScope 는 필수
+- scope 를 사용해야 하는 경우 Tasklet, Chunk(ItemReader, ItemProcessor, ItemWriter) 를 bean 에 등록해야 함
+  - JobScope 와 StepScope 는 Bean 의 life-cycle 을 설정하기 때문에 해당 객체는 반드시 빈이어야 함.
+
+
+
+
+
+
 
 배치 실행을 위한 메타 데이터가 저장되는 테이블
 - BATCH_JOB_INSTANCE
