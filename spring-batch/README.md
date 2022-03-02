@@ -33,6 +33,8 @@ Step
 - Task 기반 : 하나의 작업 기반으로 실행
 
 Step - Chunk 기반
+- 대량 처리를 하는 경우 Tasklet 보다 비교적 쉽게 구혀 
+- 예를 들어 10,000개의 데이터 중 1,000개씩 10개의 덩어리로 수행  
 - Item 은 배치 처리 대상 객체를 의미
 - ItemReader 는 배치 처리 대상 객체를 읽어 ItemProcessor 또는 ItemWriter 에게 전달
   - 예시로, 파일 또는 DB 에서 데이처를 읽는 작업
@@ -41,7 +43,13 @@ Step - Chunk 기반
   - ItemProcessor 는 optional 하며, ItemReader 또는 ItemWriter 가 역활을 대신할 수 있음
 - ItemWriter 는 배치 처리 대상 객체를 처리
   - 예시로, DB update 를 하거나, 처리 대상 사용자에게 알림을 보낸다.
-  
+- chunk(chunkSize) chunkSize 개씩 데이터를 분할  
+
+Step - Task 기반
+- 배치 처리 과정이 비교적 쉬운 경우 쉽게 사용
+- 대량 처리를 하는 경우 더 복잡
+- 하나의 큰 덩어리를 여러 덩어리로 나누어 처리하기 부적합
+- 예를 들어 10,000개의 데이터를 한번에 처리하거나, 소동으로 1,000개씩 분할해야함
 
 Step method
 - .get : job 의 get 과 동일
