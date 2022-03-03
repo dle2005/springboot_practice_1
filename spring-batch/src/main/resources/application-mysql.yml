@@ -1,9 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_batch?serverTimezone-UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/spring_batch?serverTimezone-UTC&characterEncoding=UTF-8&rewritedBatchedStatements=true
     username: root
     password: ehdrhs8615
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 batch:
   job:
     names: ${job.name:NONE}
