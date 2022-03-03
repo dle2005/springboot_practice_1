@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_batch?serverTimezone-UTC&characterEncoding=UTF-8
-    username: root
-    password: ehdrhs8615
+    driver-class-name: org.h2.Driver
+  sql:
+    init:
+      data-locations: classpath:person.sql
 batch:
   job:
     names: ${job.name:NONE}
