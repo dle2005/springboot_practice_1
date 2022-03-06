@@ -11,7 +11,7 @@ import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import spring.batch.part5.Person;
+import spring.batch.entity.domain.Person;
 
 import javax.sql.DataSource;
 import java.util.stream.Collectors;

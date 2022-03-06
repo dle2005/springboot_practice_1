@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import spring.batch.part5.CustomItemReader;
-import spring.batch.part5.Person;
+import spring.batch.entity.domain.Person;
 
 import java.util.ArrayList;
 import java.util.List;
