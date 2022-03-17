@@ -1,4 +1,4 @@
-package hello.aop.order.aop;
+package hello.aop.implement.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,7 +12,7 @@ public class AspectV5Order {
     @Order(2)
     @Aspect
     public static class LogAspect {
-        @Around("hello.aop.order.aop.Pointcuts.allOrder()")
+        @Around("hello.aop.implement.aop.Pointcuts.allOrder()")
         public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable { // Advice
             log.info("[log] {}", joinPoint.getSignature());
 
@@ -23,7 +23,7 @@ public class AspectV5Order {
     @Order(1)
     @Aspect
     public static class TransactionAspect {
-        @Around("hello.aop.order.aop.Pointcuts.orderAndService()")
+        @Around("hello.aop.implement.aop.Pointcuts.orderAndService()")
         public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
             try {
                 log.info("[트랜잭션 시작] {}", joinPoint.getSignature());
