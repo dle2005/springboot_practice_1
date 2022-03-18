@@ -20,19 +20,19 @@ public class TraceId {
         this.level = level;
     }
 
-    private String creatId() {
+    public String creatId() {
         return UUID.randomUUID().toString().substring(0, 8);
     }
 
-    private TraceId createNextId() {
+    public TraceId createNextId() {
         return new TraceId(id, level + 1);
     }
 
-    private TraceId createPreviousId() {
+    public TraceId createPreviousId() {
         return new TraceId(id, level - 1);
     }
 
-    private boolean isFirstLeve() {
+    public boolean isFirstLeve() {
         return level == 0;
     }
 }
