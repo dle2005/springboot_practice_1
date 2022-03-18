@@ -1,6 +1,7 @@
 package hello.aop.logtrace;
 
 import hello.aop.logtrace.trace.LogTrace;
+import hello.aop.logtrace.trace.LogTraceImpl;
 import hello.aop.logtrace.trace.TraceStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class OrderController {
+public class LogTraceController {
 
-    private final OrderService orderService;
+    private final LogTraceService orderService;
     private final LogTrace trace;
 
     @GetMapping("/request")
@@ -18,9 +19,9 @@ public class OrderController {
         TraceStatus status = null;
 
         try {
-            status = trace.begin("OrderController.request()");
+            status = trace.begin("LogTraceController.request()");
 
-            orderService.orderItem(status.getTraceId(), itemId);
+            orderService.orderItem(itemId);
 
             trace.end(status);
 

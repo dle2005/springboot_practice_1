@@ -1,6 +1,7 @@
 package hello.aop.logtrace;
 
 import hello.aop.logtrace.trace.LogTrace;
+import hello.aop.logtrace.trace.LogTraceImpl;
 import hello.aop.logtrace.trace.TraceId;
 import hello.aop.logtrace.trace.TraceStatus;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +9,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class OrderRepository {
+public class LogTraceRepository {
 
     private final LogTrace trace;
 
-    public void save(TraceId traceId, String itemID) {
+    public void save(String itemID) {
         TraceStatus status = null;
 
         try {
-            status = trace.beginSync(traceId, "OrderRepository.save()");
+            status = trace.begin("LogTraceRepository.save()");
 
             if (itemID.equals("ex")) {
                 throw new IllegalStateException("예외 발생!");

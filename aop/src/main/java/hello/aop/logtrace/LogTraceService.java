@@ -1,25 +1,25 @@
 package hello.aop.logtrace;
 
 import hello.aop.logtrace.trace.LogTrace;
-import hello.aop.logtrace.trace.TraceId;
+import hello.aop.logtrace.trace.LogTraceImpl;
 import hello.aop.logtrace.trace.TraceStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class LogTraceService {
 
-    private final OrderRepository orderRepository;
+    private final LogTraceRepository logTraceRepository;
     private final LogTrace trace;
 
-    public void orderItem(TraceId traceId, String itemId) {
+    public void orderItem(String itemId) {
         TraceStatus status = null;
 
         try {
-            status = trace.beginSync(traceId, "OrderService.orderItem()");
+            status = trace.begin("LogTraceService.orderItem()");
 
-            orderRepository.save(traceId, itemId);
+            logTraceRepository.save(itemId);
 
             trace.end(status);
         } catch (Exception e) {
