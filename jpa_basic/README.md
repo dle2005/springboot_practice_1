@@ -3,6 +3,22 @@ jpa.basic
   ㄴ member : JPA 메커니즘의 이해
 ```
 
+```
+목차
+  ㄴ JPA메커니즘의 이해
+    ㄴ EntityManagerFactory
+    ㄴ EntityManager
+    ㄴ EntityManager Transaction
+  ㄴ 영속성 컨텍스트 (EntityManager)
+    ㄴ 1차 캐시
+    ㄴ 쓰기 지연
+    ㄴ 변경 감지
+  ㄴ 플러시 (flush)  
+ 
+```
+
+### **JPA 매커니즘의 이해**
+
 JPA 에서 데이터를 변경하는 모든 동작은 transaction 안에서 이루어져야 한다.
 
 JPA 를 사용해서 Entity 를 가져오면 JPA 가 관리흘 해준다.  
@@ -14,6 +30,8 @@ EntityManager 는 요청이 발생시 생성되고 종료되며, 쓰레드간에
 
 JPA 는 SQL 을 추상화한 JPQL 이라는 객체 지향 쿼리 언어를 제공한다.  
 JPQL 은 엔티티 객체를 대상으로 하며, SQL 은 데이터베이스 테이블을 대상으로 한다.
+
+### **영속성 컨텍스트**
 
 영속성 컨텍스트란 엔티티를 영구 저장하는 환경이다.  
 ex) EntityManager.persist(entity); DB 저장이 아닌 영속화, 영속성 컨텍스트에 저장하는 것이다.    
@@ -34,4 +52,11 @@ jdbc.batch_size 를 설정하여 한번에 여러 query 를 실행시킬 수 있
 - 준영속(detached) : 영속성 컨텍스트에 저장되었다가 분리된 상태
 - 삭제(removed) : 삭제된 상태
 
+### **플러시**
 
+영속성 컨텍스트의 변경내용을 데이터베이스에 반영  
+
+트랜젝션이 commit 되면 flush 가 자동으로 실행  
+변경 감지 - 수정 엔티티 쓰기 지연 SQL 저장소에 등록 - 쿼리를 데이터베이스에 전송  
+
+JPQL query 실행시 플러시를 먼저 자동으로 호출된다.
