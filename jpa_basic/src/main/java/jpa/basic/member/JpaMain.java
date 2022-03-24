@@ -18,10 +18,12 @@ public class JpaMain {
 
         try {
             /* 생성
+                // 엔티티 생명주기 : 비영속
                 Member member = new Member();
                 member.setId(1L);
                 member.setName("hello");
 
+                // 엔티티 생명주기 : 영속
                 entityManager.persist(member);
              */
 
