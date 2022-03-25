@@ -13,8 +13,12 @@ jpa.basic
     ㄴ 1차 캐시
     ㄴ 쓰기 지연
     ㄴ 변경 감지
-  ㄴ 플러시 (flush)  
- 
+  ㄴ 플러시 (flush)
+  ㄴ 엔티티 매핑
+    ㄴ 객체와 테이블 매핑
+    ㄴ 데이터베이스 스키마 자동 생성   
+    ㄴ 필드와 컬럼 매핑
+    ㄴ 기본 키 매핑
 ```
 
 ### **JPA 매커니즘의 이해**
@@ -60,3 +64,52 @@ jdbc.batch_size 를 설정하여 한번에 여러 query 를 실행시킬 수 있
 변경 감지 - 수정 엔티티 쓰기 지연 SQL 저장소에 등록 - 쿼리를 데이터베이스에 전송  
 
 JPQL query 실행시 플러시를 먼저 자동으로 호출된다.
+
+### **엔티티 매핑**
+
+객체와 테이블 매핑: @Entity, @Table  
+필드와 컬럼 매핑: @Column  
+기본 키 매핑: @Id  
+연관관계 매핑: @ManyToOne, @JoinColumn
+
+@Entity  
+- @Entity 어노테이션이 붙은 클래스는 JPA 가 관리한다.  
+- JPA 를 사용해서 테이블과 매핑할 클래스는 @Entity 가 필수이다. 
+- 기본 생성자 필수(파라미터가 없는 public 또는 protected 생성자)
+- final class, enum, interface, inner class 사용 불가
+- 저장할 필드에 final 사용 불가
+
+@Table
+- 에티티와 매핑할 테이블 지정
+- ex. @Table(name = "MBR")
+
+데이터베이스 스키마 자동 생성
+- DDL 을 애플리케이션 실행 시점에 자동 생성
+- 데이터베이스 방언을 활요해서 데이터베이스에 맞는 적절한 DDL 생성
+- 설정 hibernate.hbm2ddl.auto (create, create-drop, update, validate, none)
+  - create: 기존 테이블 삭제 후 다시 생성 (DROP + CREATE)
+  - create-drop: create 와 같으나 종료시점에 테이블 DROP
+  - update: 변경분만 반영 (추가만 가능)
+  - validate: 엔티티와 테이블이 정상 매핑되었는지만 확인
+- 제약조건 추가 (alter)
+  - @Column(unique = true, nullable = false, length = 10)
+  - @Table(uniqueConstraints = {@UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = {"NAME", "AGE"})})  
+    
+필드와 컬럼 매핑
+- @Column(name = "DB_Column_name") db column name 과 매핑 
+- @Enumerated(EnumType.STRING) Enum type 필드로 사용하고 싶은 경우 사용. db 에는 enum 이 존재 하지 않음.
+- @Temporal(TemporalType.TIMESTAMP) 자바의 DATE type 은 날짜와 시간 모두 가지고 있지만, db 에는 DATE, TIME, TIMESTAMP 가 존재.
+- @Lob varchar 를 넘어가는 범위를 가지고 싶을때. (blob, clob)
+- @Transient db 에는 없고 메모리에서만 사용할 경우 
+
+기본 키 매핑
+- 직접 할당: @Id
+- 자동 생성: GeneratedValue  
+  - AUTO: 기본 설정, 데이터베이스 방언에 맞춰 생성 (아래 3개 중)
+  - IDENTITY: 데이터베이스에 위임, MySQL
+    - persist 하는 순간 DB에 바로 insert query 실행
+  - SEQUENCE: 데이터베이스 시퀸스 오브젝트 사용, ORACLE
+    - @SequenceGenerator 사용
+  - TABLE: 키 생성용 테이블 사용, 모든 DB
+    - @TableGenerator 필요
+  
