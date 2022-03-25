@@ -1,4 +1,4 @@
-package jpa.basic.member;
+package jpa.basic.jpamain;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
