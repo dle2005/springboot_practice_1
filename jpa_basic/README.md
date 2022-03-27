@@ -26,6 +26,10 @@ jpa.basic
   ㄴ 상품 주문 예제
   ㄴ 연관관계 매핑
     ㄴ 연관관계의 주인 (양방향 매칭 큐칙)  
+  ㄴ 상속관계 매핑
+    ㄴ 조인 전략
+    ㄴ 단일 테이블 전략
+    ㄴ 구현 클래스마다 테이블 전략  
 ```
 
 ### **JPA 매커니즘의 이해**
@@ -140,3 +144,76 @@ JPQL query 실행시 플러시를 먼저 자동으로 호출된다.
 - 주인은 mappedBy 속성 사용 X
 - 주인이 아니면 mappedBy 속성으로 주인 지정 
 - 외래키가 있는 곳을 주인으로 정하는것이 좋음
+
+상속관계 매핑
+- 관계형 데이터베이스는 상속 관계가 없음
+- 슈퍼타입 서프타입 관계라는 모델링 기법이 객체 상속과 유사
+- 상속관계 매핑: 객체의 상속과 구조와 DB의 슈퍼타입 서브타입 관계를 매핑
+  - 각각 테이블로 변환 -> 조인 전략
+  - 통합 테이블로 변환 -> 단일 테이블 전략
+  - 서브타입 테이블로 변환 -> 구현 클래스마다 테이블 전략 
+
+조인 전략
+- 각 엔티티마다 @Inheritance(strategy = InheritanceType.JOINED) 추가
+- DTYPE 추가는 ITEM 엔티티에 @DiscriminatorColumn 추가
+  - DTYPE 에는 하위 엔티티명이 표시 
+- 장점
+  - 테이블 정규화
+  - 외래 키 참조 무결성 제약조건 활용가능
+  - 저장 공간 효율화
+- 단점
+  - 조회시 조인을 많이 사용, 성능 저하
+  - 조회 쿼리가 복잡함
+  - 데이터 저장시 INSERT SQL 2번 호출 
+
+```
+ITEM_TB
+ITEM_ID (PK), NAME, PRICE, DTYPE
+
+ALBUM_TB
+ITEM_ID (PK, FK), ARTIST
+
+MOVIE_TB
+ITEM_ID (PK, FK), DIRECTOR, ACTOR
+
+BOOK_TB
+ITEM_ID (PK, FK) AUTHOR, ISBN
+```
+  
+단일 테이블 전략 
+- 별도의 설정 없을시 default 로 단일 테이블 전략 사용 
+- 부모 엔티티에 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+- Insert 가 한번에 이루어지고 JOIN 이 필요없어 성능은 가장 좋음   
+- DTYPE 이 필수 @DiscriminatorColumn 없어도 생성됨 
+- 장점
+  - 조인이 필요 없으므로 일반적으로 조회 성능이 빠름
+  - 조회 쿼리가 단순함
+- 단점
+  - 자식 엔티티가 매핑한 컬럼은 모두 null 허용
+  - 단일 테이블에 모든 것을 저장하므로 테이블이 커질 수 있으며 상황에 따라서 조회 성능이 오히려 느려질 수 있다.
+  
+```
+ITEM_TB
+ITEM_ID (PK), NAME, PRICE, ARTIST, DIRECTOR, ACTOR, AUTHOR, ISBN, DTYPE
+```
+
+구현 클래스마다 테이블 전략 
+- 부모 엔티티에 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+- 이 경우 부모 엔티티를 추상 클래스로 만드는것이 설계상 맞음
+- 이 전략은 DBA, ORM 전문가 둘 다 추천 x
+- 장점
+  - 서브 타입을 명확하게 구분해서 처리할 때 효과적
+  - not null 제약조건 사용 가능
+- 단점
+  - 여러 자식 테이블을 함께 조회할 때 성능이 느림 (UNION SQL 사용)
+  - 자식 테이블을 통합해서 쿼리하기 어려움 
+```
+ALBUM_TB
+ITEM_ID (PK), NAME, PRICE, ARTIST
+
+MOVIE_TB
+ITEM_ID (PK), NAME, PRICE, DIRECTOR, ACTOR
+
+BOOK_TB
+ITEM_ID (PK), NAME, PRICE, AUTHOR, ISBN
+```
