@@ -5,6 +5,7 @@ jpa.basic
   ㄴ domain : 상품 주문 예제
     ㄴ 엔티티 매핑
     ㄴ 연관관계 매핑 
+    ㄴ 상속관계 매핑
 ```
 
 ```
@@ -29,7 +30,8 @@ jpa.basic
   ㄴ 상속관계 매핑
     ㄴ 조인 전략
     ㄴ 단일 테이블 전략
-    ㄴ 구현 클래스마다 테이블 전략  
+    ㄴ 구현 클래스마다 테이블 전략
+    ㄴ MappedSuperclass  
 ```
 
 ### **JPA 매커니즘의 이해**
@@ -217,3 +219,13 @@ ITEM_ID (PK), NAME, PRICE, DIRECTOR, ACTOR
 BOOK_TB
 ITEM_ID (PK), NAME, PRICE, AUTHOR, ISBN
 ```
+
+MappedSuperclass 매핑 정보 상속 
+- 부모 클래스를 상속 받는 자식 클래스에 매핑 정보만 제공
+  - 부모 클래스에 @MappedSuperclass 어노테이션 추가
+  - 자식 클래스는 부모를 상속 받아 사용
+- 상속관계 매핑 x, 엔티티 x, 테이블과 매핑 x
+- 직접 생성해서 사용할 일이 없으므로 추상 클래스 사용 권장
+- 조회, 검색 불가
+- 테이블과 관계 없고, 단순히 엔티티가 공통으로 사용하는 매핑 정보를 모으는 역활
+- @Entity 클래스는 엔티티나 @MappedSuperclass 로 지정한 클래스만 상속 가능 
